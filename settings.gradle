@@ -1,0 +1,1 @@
+include ':example', ':library', ':simple-annotation', ':simple-processors', ':module_1', ':module_2'
