@@ -7,7 +7,7 @@ import android.view.View;
 import cn.com.findfine.library.RouterEngine;
 import cn.com.findfine.simple_annotation.annotation.SimpleRoute;
 
-@SimpleRoute(path = "Module1Activity")
+@SimpleRoute(path = "Module1Activity", type = "activity")
 public class Module1Activity extends AppCompatActivity {
 
     @Override

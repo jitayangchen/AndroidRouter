@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
-public @interface SimpleRoute {
+public @interface ServiceRoute {
     String path();
     String type();
 }

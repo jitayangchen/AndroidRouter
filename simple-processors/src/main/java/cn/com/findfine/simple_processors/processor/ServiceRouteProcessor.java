@@ -27,14 +27,14 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
-import cn.com.findfine.simple_annotation.annotation.SimpleRoute;
+import cn.com.findfine.simple_annotation.annotation.ServiceRoute;
 import cn.com.findfine.simple_annotation.model.RouteMeta;
 import cn.com.findfine.simple_processors.utils.Logger;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 @SupportedOptions("moduleName")
-public class AnnotationProcessor extends AbstractProcessor {
+public class ServiceRouteProcessor extends AbstractProcessor {
 
     private final static String PACKAGE_NAME = "cn.com.findfine.androidrouter";
     private final static String IACTIVITYROUTER = "cn.com.findfine.library.operation.IActivityRouter";
@@ -59,7 +59,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotataions = new LinkedHashSet<>();
-        annotataions.add(SimpleRoute.class.getCanonicalName());
+        annotataions.add(ServiceRoute.class.getCanonicalName());
         return annotataions;
     }
 
@@ -88,11 +88,11 @@ public class AnnotationProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(groupParamSpec);
 
-        for (Element element : roundEnvironment.getElementsAnnotatedWith(SimpleRoute.class)) {
+        for (Element element : roundEnvironment.getElementsAnnotatedWith(ServiceRoute.class)) {
             if (element.getKind() == ElementKind.CLASS) {
                 TypeElement typeElement = (TypeElement) element;
                 logger.i(typeElement.getSimpleName());
-                String path = typeElement.getAnnotation(SimpleRoute.class).path();
+                String path = typeElement.getAnnotation(ServiceRoute.class).path();
                 logger.i(moduleName + " : " + path);
 
                 mainBuilder.addStatement(
@@ -101,7 +101,7 @@ public class AnnotationProcessor extends AbstractProcessor {
             }
         }
 
-        TypeSpec helloWorld = TypeSpec.classBuilder("RouterLoad_" + moduleName)
+        TypeSpec helloWorld = TypeSpec.classBuilder("ServiceRouterLoad_" + moduleName)
                 .addJavadoc("Auto make class file.")
                 .addSuperinterface(ClassName.get(elements.getTypeElement(IACTIVITYROUTER)))
                 .addModifiers(Modifier.PUBLIC)

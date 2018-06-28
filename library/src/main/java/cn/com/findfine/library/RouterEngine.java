@@ -16,6 +16,7 @@ public class RouterEngine {
 
     private final static List<String> classNameArray = new ArrayList<>();
     private final static Map<String, RouteMeta> routeMetaMap = new HashMap<>();
+    private final static Map<String, RouteMeta> serviceRouteMetaMap = new HashMap<>();
 
     public static void init() {
 
@@ -26,6 +27,8 @@ public class RouterEngine {
         classNameArray.add("cn.com.findfine.androidrouter.RouterLoad_example");
         classNameArray.add("cn.com.findfine.androidrouter.RouterLoad_module_1");
         classNameArray.add("cn.com.findfine.androidrouter.RouterLoad_module_2");
+
+        classNameArray.add("cn.com.findfine.androidrouter.ServiceRouterLoad_module_1");
 
 
         for (String className : classNameArray) {
@@ -46,5 +49,19 @@ public class RouterEngine {
 
         Intent intent = new Intent(context, routeMeta.getaClass());
         context.startActivity(intent);
+    }
+
+    public static Object getData(String path) {
+        RouteMeta routeMeta = routeMetaMap.get(path);
+        if (routeMeta == null) {
+            throw new PathNotFoundException("Path not found!");
+        }
+
+        try {
+            return routeMeta.getaClass().getConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
